@@ -12,7 +12,6 @@ import love.cq.domain.Value;
 import love.cq.library.Library;
 import love.cq.util.IOUtil;
 import love.cq.util.StringUtil;
-import org.ansj.dic.DicReader;
 
 import org.ansj.util.MyStaticValue;
 
@@ -80,24 +79,10 @@ public class UserDefineLibrary {
                 e.printStackTrace();
             }
             System.out.println("init redressLibrary ok!");
-//        } else {
-//            System.err.println("init ambiguity  waring :" + ambiguityLibrary
-//                               + " because : not find that file or can not to read ! Try Load Resource!");
+        } else {
+            System.err.println("init ambiguity  waring :" + ambiguityLibrary
+                               + " because : not find that file or can not to read !");
         }
-        
-        if (ambiguityForest == null){
-            try {
-                    if (!ambiguityLibrary.startsWith("/")) {
-                        ambiguityLibrary = "/" + ambiguityLibrary;
-                    }
-                    ambiguityForest = Library.makeForest(UserDefineLibrary.class.getResourceAsStream(ambiguityLibrary));
-            } catch (Exception e2) {
-                    System.err.println("init ambiguity  error :" + ambiguityLibrary
-                        + " because : not find that resource or can not to read !");
-                    e2.printStackTrace();
-            }
-        }
-
     }
 
     /**
@@ -163,9 +148,9 @@ public class UserDefineLibrary {
         File file = null;
         if ((path != null || (path = MyStaticValue.rb.getString("userLibrary")) != null)) {
             file = new File(path);
-//            if (!file.canRead() || file.isHidden()) {
-//                return;
-//            }
+            if (!file.canRead() || file.isHidden()) {
+                return;
+            }
             if (file.isFile()) {
                 loadFile(forest, file);
             } else if (file.isDirectory()) {
@@ -177,8 +162,7 @@ public class UserDefineLibrary {
                 }
             } else {
                 System.err.println("init user library  error :" + path
-                                   + " because : not find that file ! Try Load as Resource!");
-				loadResource(forest, path);
+                                   + " because : not find that file !");
             }
         }
     }
@@ -201,42 +185,4 @@ public class UserDefineLibrary {
         return userForestMap;
     }
 
-    public static void loadResource(Forest forest, String resourceName) {
-        // TODO Auto-generated method stub
-        if (resourceName != null) {
-            if (!resourceName.startsWith("/")) {
-                resourceName = "/" + resourceName;
-            }
-            String temp = null;
-            BufferedReader br = null;
-            String[] strs = null;
-            Value value = null;
-            try {
-                br = DicReader.getReader(resourceName);
-                while ((temp = br.readLine()) != null) {
-                    if (StringUtil.isBlank(temp)) {
-                        continue;
-                    } else {
-                        strs = temp.split("\t");
-                        if (strs.length != 3) {
-                            value = new Value(strs[0], DEFAULT_NATURE, DEFAULT_FREQ_STR);
-                        } else {
-                            value = new Value(strs[0], strs[1], strs[2]);
-                        }
-                        Library.insertWord(forest, value);
-                    }
-                }
-                System.out.println("init user userLibrary ok path is : " + resourceName);
-            } catch (UnsupportedEncodingException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } finally {
-                IOUtil.close(br);
-                br = null;
-            }
-        }
-    }
 }

@@ -3,7 +3,7 @@ package org.ansj.splitWord.analysis;
 import java.io.Reader;
 import java.util.LinkedList;
 import java.util.List;
-import love.cq.domain.Forest;
+
 import org.ansj.domain.Term;
 import org.ansj.recognition.AsianPersonRecognition;
 import org.ansj.recognition.NumRecognition;
@@ -19,18 +19,11 @@ import org.ansj.util.Graph;
  */
 public class IndexAnalysis extends Analysis {
 
-	private Forest forest = null;
-	
 	public IndexAnalysis(Reader reader) {
 		super(reader);
 		// TODO Auto-generated constructor stub
 	}
 
-	public IndexAnalysis(Reader reader, Forest forest) {
-		super(reader);
-		this.forest = forest;
-	}
-	
 	@Override
 	protected List<Term> getResult(final Graph graph) {
 		Merger merger = new Merger() {
@@ -47,8 +40,7 @@ public class IndexAnalysis extends Analysis {
 
 				
 				// 用户自定义词典的识别
-				//new UserDefineRecognition(graph.terms).recognition();
-				new UserDefineRecognition(graph.terms, forest).recognition();
+				new UserDefineRecognition(graph.terms).recognition();
 
 				return result();
 			}
@@ -88,19 +80,5 @@ public class IndexAnalysis extends Analysis {
 
 	public static List<Term> parse(String str) {
 		return new IndexAnalysis().parseStr(str);
-	}
-	
-	/**
-	 * 用户自己定义的词典
-	 * 
-	 * @param forest
-	 */
-	public IndexAnalysis(Forest forest) {
-		// TODO Auto-generated constructor stub
-		this.forest = forest;
-	}
-
-	public static List<Term> parse(String str, Forest forest) {
-		return new IndexAnalysis(forest).parseStr(str);
 	}
 }

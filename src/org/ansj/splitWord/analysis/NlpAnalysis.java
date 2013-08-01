@@ -3,7 +3,7 @@ package org.ansj.splitWord.analysis;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
-import love.cq.domain.Forest;
+
 import org.ansj.app.newWord.LearnTool;
 import org.ansj.domain.Term;
 import org.ansj.recognition.NatureRecognition;
@@ -25,16 +25,9 @@ public class NlpAnalysis extends Analysis {
 		super(reader);
 		this.learn = learn;
 	}
-	
-	public NlpAnalysis(Reader reader, LearnTool learn, Forest forest) {
-        super(reader);
-        this.learn = learn;
-        this.forest = forest;
-    }
 
 	private LearnTool learn = null;
-        private Forest forest = null;
-        
+
 	@Override
 	protected List<Term> getResult(final Graph graph) {
 		// TODO Auto-generated method stub
@@ -58,8 +51,7 @@ public class NlpAnalysis extends Analysis {
 				learn.learn(graph);
 
 				// 用户自定义词典的识别
-//				new UserDefineRecognition(graph.terms).recognition();
-				new UserDefineRecognition(graph.terms, forest).recognition();
+				new UserDefineRecognition(graph.terms).recognition();
 //				graph.rmLittlePath();
 				graph.walkPathByScore();
 
@@ -96,12 +88,7 @@ public class NlpAnalysis extends Analysis {
 	 */
 	private NlpAnalysis(LearnTool learn) {
 		this.learn = learn;
-	}
-	
-	private NlpAnalysis(LearnTool learn, Forest forest) {
-            this.learn = learn;
-            this.forest = forest;
-    }
+	};
 
 	public static List<Term> parse(String str, LearnTool learn) {
 		return new NlpAnalysis(learn).parseStr(str);
@@ -110,13 +97,4 @@ public class NlpAnalysis extends Analysis {
 	public static List<Term> parse(String str) {
 		return new NlpAnalysis(new LearnTool()).parseStr(str);
 	}
-	
-	public static List<Term> pasre(String str, LearnTool learn, Forest forest) {
-        return new NlpAnalysis(learn, forest).parseStr(str);
-    }
-
-    public static List<Term> pasre(String str, Forest forest) {
-        return new NlpAnalysis(new LearnTool(), forest).parseStr(str);
-    }
-	
 }

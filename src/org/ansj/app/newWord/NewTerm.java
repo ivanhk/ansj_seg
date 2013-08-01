@@ -26,7 +26,7 @@ public class NewTerm  implements Comparable<NewTerm> , Cloneable {
 		super();
 		this.name = term.getName();
 		this.offe = term.getOffe();
-		this.maxNature = term.getNature() ;
+		this.maxNature = term.getNatrue() ;
 	}
 	
 	public NewTerm(NewTerm term){
