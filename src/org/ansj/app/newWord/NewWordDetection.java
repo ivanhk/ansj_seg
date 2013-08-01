@@ -93,7 +93,7 @@ public class NewWordDetection {
 		}
 
 		// 词性过滤
-		String natureStr = term.getNatrue().natureStr;
+		String natureStr = term.getNature().natureStr;
 		if (natureStr.contains("m") || ("v".equals(natureStr) && term.getTermNatures().allFreq > 100*length)
 				|| (("d".equals(natureStr)) && term.getTermNatures().allFreq > 1000) || "z".equals(natureStr) || term.getTermNatures() == TermNatures.NB
 				|| term.getTermNatures() == TermNatures.EN) {

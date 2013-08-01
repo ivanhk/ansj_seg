@@ -47,7 +47,7 @@ public class KeyWordComputer {
                 continue;
             Keyword keyword = tm.get(term.getName());
             if (keyword == null) {
-                keyword = new Keyword(term.getName(), term.getNatrue().allFrequency, weight);
+                keyword = new Keyword(term.getName(), term.getNature().allFrequency, weight);
                 tm.put(term.getName(), keyword);
             } else {
                 keyword.updateWeight(1);
@@ -93,7 +93,7 @@ public class KeyWordComputer {
             return 0;
         }
 
-        String pos = term.getNatrue().natureStr;
+        String pos = term.getNature().natureStr;
 
         if (!pos.startsWith("n") || "num".equals(pos)) {
             return 0;

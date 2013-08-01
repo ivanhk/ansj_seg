@@ -177,7 +177,7 @@ public class Term implements Comparable<Term> {
 	 * 
 	 * @return
 	 */
-	public Nature getNatrue() {
+	public Nature getNature() {
 		return nature;
 	}
 
